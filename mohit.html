@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fingerprint Authentication</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fingerprint Authentication</h1>
+  <p>Click the button below to authenticate using fingerprint.</p>
+  <button onclick="authenticate()">Authenticate</button>
+
+  <script>
+    async function authenticate() {
+      if (!window.PublicKeyCredential) {
+        alert("WebAuthn not supported on this browser.");
+        return;
+      }
+
+      try {
+        const credential = await navigator.credentials.get({
+          publicKey: {
+            challenge: new Uint8Array([ // Dummy challenge
+              0x8C, 0xFA, 0xF9, 0x8D, 0x72, 0x6B, 0xA9, 0xFE
+            ]),
+            timeout: 60000,
+            userVerification: "preferred"
+          }
+        });
+
+        // If fingerprint/biometric is successful
+        window.location.href = "https://sites.google.com/view/mohitkumar6355?usp=sharing";
+
+      } catch (err) {
+        alert("Authentication failed: " + err.message);
+      }
+    }
+  </script>
+</body>
+</html>
